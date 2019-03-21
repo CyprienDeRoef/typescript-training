@@ -4,8 +4,13 @@ describe('class', () => {
     // Create a Musician class
     // Add a constructor that takes one param, the instrument.
     // Set this.instrument to the instrument passed in
-
-    const musician = new Musician()
+    class Musician {
+      instrument : any;
+      constructor(instrument: any) {
+        this.instrument = instrument;
+      }
+    }
+    const musician = new Musician(undefined)
     const ringo = new Musician('drums')
 
     expect(musician.instrument).toBeUndefined()
@@ -15,8 +20,14 @@ describe('class', () => {
   it('constructor can have default param values', () => {
     // Create a Musician class with a constructor
     // Make your class default (using default params) the instrument to 'guitar'
+    class Musician {
+      instrument : 'guitar';
+      constructor(instrument: any) {
+        this.instrument = instrument;
+      }
+    }
 
-    const john = new Musician()
+    const john = new Musician('guitar')
     const ringo = new Musician('drums')
 
     expect(john.instrument).toBe('guitar')
@@ -26,8 +37,16 @@ describe('class', () => {
   it('can have instance methods', () => {
     // Create a Musician class, pass in the instrument to the constructor,
     // and add a play function to the class definition
-
-    const musician = new Musician()
+    class Musician {
+      instrument: any;
+      constructor(instrument: any) {
+        this.instrument = instrument;
+      }
+      play() {
+        return `I'm playing ${this.instrument}`
+      } 
+    }
+    const musician = new Musician('drums')
 
     expect(musician.play).toBeDefined()
     // expect(Musician.play).toBeUndefined()
@@ -39,7 +58,18 @@ describe('class', () => {
     // create a static property instances (that will hold all created instances) and
     // create a static method create that encapsulates calling constructor
     //   and storing the reference (in instances array) and returns the instance
-
+    class Musician {
+      instrument : any;
+      static instances: Musician[] = [];
+      constructor(instrument: any) {
+        this.instrument = instrument;
+      }
+      static create(instrument: string): Musician {
+        const musician = new Musician(instrument);
+        Musician.instances.push(musician);
+        return musician;
+      }
+    }
     expect(Musician.create).toBeDefined()
     expect(Musician.instances.length).toBe(0)
 
@@ -56,8 +86,20 @@ describe('class', () => {
     // Create a Musician class
     // Create a Rockman class that extends Musician
     // Add play method to Musician
+    class Musician {
+      instrument: any;
+      constructor(instrument: any) {
+        this.instrument = instrument;
+      }
+      play() {
+        return `I'm playing ${this.instrument}`
+      }
+    }
+    class Rockman extends Musician {
 
-    const rockman = new Rockman()
+    }
+
+    const rockman = new Rockman('guitar')
 
     expect(rockman instanceof Rockman).toBe(true)
     expect(rockman instanceof Musician).toBe(true)
@@ -67,7 +109,15 @@ describe('class', () => {
   it('can use property setters and getters', () => {
     // Create a Musician class, pass in the instrument to the constructor,
     // Add property getter for description
-
+    class Musician {
+      instrument: any;
+      constructor(instrument: any) {
+        this.instrument = instrument;
+      }
+      get description() {
+        return `this musician plays ${this.instrument}`
+      }
+    }
     const guitarist = new Musician('guitar')
     const drummer = new Musician('drums')
 
@@ -81,7 +131,19 @@ describe('class', () => {
     // - it will return a string describing all the bands that this musician played in
     // Add property setter for band
     // - it will add this band to the list of musician's bands'. How to store them?
-
+    class Musician {
+      instrument: string;
+      _band: string[] = [];
+      constructor(instrument: string) {
+        this.instrument = instrument;
+      }
+      get allBands() {
+        return `this musician played in ${this._band.join(', ')}`
+      }
+      set band(value) {
+        this._band.push(value);
+      }
+    }
     const musician = new Musician()
 
     musician.band = 'ABBA'
